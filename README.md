@@ -1,4 +1,4 @@
-pppoe-catch
+pppoe-migration-assistant
 ===========
 
 PPPoE拨号账号迁移助手，简单完成新老路由的交接工作。
