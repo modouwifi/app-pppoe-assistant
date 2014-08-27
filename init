@@ -43,6 +43,7 @@ install()
 
 uninstall()
 {
+    rm $TO_TP_CONF_FILE
     return 0
 }
 
