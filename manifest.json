@@ -1,7 +1,7 @@
 {
 "package_id"      : "com.modouwifi.pppoecatch",
 "os_version"      : "0.6.12",
-"name"            : "pppoe_assistant",
+"name"            : "app-pppoe-assistant",
 "display_name"    : "PPPoE账号迁移助手",
 "author"          : "魔豆开发团队-junjian",
 "author_mail"     : "junjian@mochui.net",
