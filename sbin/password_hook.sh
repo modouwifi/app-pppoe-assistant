@@ -31,7 +31,7 @@ else
     local num=`cat $book | wc -l`
 
     finish_loading
-    prompt "截取到$num个帐号信息.$BR点击\"确定\"以连接互联网."
+    #prompt "截取到$num个帐号信息.$BR点击\"确定\"以连接互联网."
 
     $sbin_path/service.sh dial
 fi

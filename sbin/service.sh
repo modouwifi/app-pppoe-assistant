@@ -61,12 +61,12 @@ correct_account_found() {
     killall pppd
 
     finish_loading
-    prompt "发现帐号($name)$BR密码($pass)$BR可以连接互联网. $BR点击确定以使用此帐号." 
+    start_loading "正在用($name)接互联网.." 
     
-    start_loading "正在连接互联网..."
+    #start_loading "正在连接互联网..."
     lua /system/share/lua/5.1/tp_entry.lua wan_api.set_config "{\"account\":\"$name\",\"password\":\"$pass\",\"type\":\"pppoe\"}"
     
-    prompt "设置成功" &
+    prompt "迁移成功!" &
     finish_loading
 }
 
