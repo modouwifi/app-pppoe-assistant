@@ -1,0 +1,6 @@
+{
+        "name" : "PPPoE帐号迁移助手",
+        "icon" : "res/icon.png",
+        "icon_pressed" : "res/icon_p.png",
+        "exec" : "init run"
+}

@@ -19,8 +19,8 @@ pppoe-assistant
 
 ## 系统要求
 
-    * 稳定版 0.6.12及以上；
-    * 开发版 0.6.12及以上；
+    * 稳定版 1.7及以上；
+    * 开发版 1.7.04及以上；
 
 ## 使用方法
 
@@ -34,4 +34,33 @@ pppoe-assistant
 
     * 添加在路由宝上的操作支持
     * 添加更多的运营商支持
+
+
+
+
+# 编译备忘
+
+    * pppoe-server 从 rp-pppoe-3.8 源码包编译,为了让pppd能够记录用户的帐号密码，我们需要修改pppd源码，而又不想和系统的pppd起冲突，所以修改pppoe-server调用的pppd为pppd-modou,具体步骤为下：
+
+    修改src/pppoe-server.c, 将startPPPDUserMode 和 startPPPDLinuxKernelMode 中调用的 "pppd" 都修改成"pppd-modou", 修改Makefile   修改 PPPD_PATH=$(sbindir)/pppd-modou(或者在configure 中指定)
+
+    * pppoe 也是从rp-pppoe-3.8 中编译,但不知道为什么用sdk的工具链编译出来的pppoe，运行时会有"can't resolv __sysv_signal"的错误, 而将rp-pppoe-3.8放到openwrt的编译环境中才能编译成功.
+
+    * pppd 从 pppd-2.4.6中编译,修改auth.c
+    在check_passwd函数中添加
+    char buf[256] ;
+    
+    snprintf(buf, sizeof(buf), "/etc/ppp/password_hook.sh %s %s", user, passwd) ;
+    system(buf) ;
+
+
+    
+
+
+
+
+
+
+
+
 

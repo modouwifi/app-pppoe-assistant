@@ -1,131 +1,51 @@
 #!/bin/sh
+PWD="$(cd $(dirname $0) && pwd)"
 
-CURDIR=$(cd $(dirname $0) && pwd)
-CONFIDR="$CURDIR/conf"
-BINDIR="$CURDIR/bin"
-SBINDIR="$CURDIR/sbin"
-LUADIR="$CURDIR/lua"
-LUAHEAD="local inpath =\"$CURDIR\" -- this is automatically generated"
-PIDFILE="$CURDIR/custom.pid"
-
-# to tp
-TO_TP_TITLE="账号迁移助手"
-TO_TP_CONF_DIR="/data/conf/launcher/conf.d"
-TO_TP_CONF_FILE="$TO_TP_CONF_DIR/pppoe_catch.conf"
-TO_TP_ICON="$CURDIR/res/icon.png"
-TO_TP_PRESSED_ICON="$CURDIR/res/picon.png"
-
-usage()
-{
+usage() {
     echo "ERROR: action missing"
     echo "syntax: $0 <start|stop|restart|status|config|install|uninstall>"
     echo "example: $0 start"
 }
 
-install()
-{
-    sed -i  "1i\\$LUAHEAD" $CURDIR/lua/pppoe_special.lua
-    sed -i  "1i\\$LUAHEAD" $CURDIR/lua/catch.lua
-    sed -i  "1i\\$LUAHEAD" $CURDIR/lua/dial.lua
-    $SBINDIR/set-custom-conf.sh
-    if [ ! -d $TO_TP_CONF_DIR ]; then
-        mkdir -p $TO_TP_CONF_DIR
-    fi
-    echo "{" > "$TO_TP_CONF_FILE"
-    echo "\"name\" :  \"$TO_TP_TITLE\"," >> "$TO_TP_CONF_FILE"
-    echo "\"icon\" : \"$TO_TP_ICON\"," >> "$TO_TP_CONF_FILE"
-    echo "\"iconPressed\" : \"$TO_TP_PRESSED_ICON\"," >> "$TO_TP_CONF_FILE"
-    echo "\"exec\" : \"$CURDIR/init start\"," >> "$TO_TP_CONF_FILE"
-    echo "\"msgNum\" : 4" >> "$TO_TP_CONF_FILE"
-    echo "}" >> "$TO_TP_CONF_FILE"
-    return 0
+start() {
+    ls
 }
 
-uninstall()
-{
-    rm $TO_TP_CONF_FILE
-    return 0
+stop() {
+    ls
 }
 
-stop()
-{
-    kill -9 `cat $PIDFILE`
-    $SBINDIR/pppoe-catch-clear.sh
-    return 0
+run() {
+    custom_u -c $PWD/conf/custom.conf -w $PWD
 }
 
-start()
-{
-    custom $CONFIDR/pppoe-custom.conf&
-    echo $! > $PIDFILE
-    return 0
+set_config() {
+    ls
 }
 
-status()
-{
-    echo "nothing to do"
-    return 0
-}
-
-config()
-{
-    echo "nothing to do"
-    return 0
-}
-
-# main
 if [ $# -lt 1 ]; then
-    usage init
-    exit 1
+    usage
+    exit 255
 fi
 
-
 case "$1" in
-    "stop")
-        stop;
-        if [ "0" != "$?" ]; then
-            exit 1;
-        fi
-        exit 0;
-        ;;
-    "start")
-        start;
-        if [ "0" != "$?" ]; then
-            exit 1;
-        fi
-        exit 0;
-        ;;
-    "status")
-        status;
-        if [ "0" != "$?" ]; then
-            exit 1;
-        fi
-        exit 0;
-        ;;
-    "config")
-        config;
-        if [ "0" != "$?" ]; then
-            exit 1;
-        fi
-        exit 0;
-        ;;
-    "install")
-        install;
-        if [ "0" != "$?" ]; then
-            exit 1;
-        fi
-        exit 0;
-        ;;
-    "uninstall")
-        stop;
-        uninstall;
-        if [ "0" != "$?" ]; then
-            exit 1;
-        fi
-        exit 0;
-        ;;
-    *)
-        usage init;
-        exit 1;
-        ;;
+    "start" )
+        start;;
+    "stop" )
+        stop;;
+    "run" )
+        run;;
+    "restart" )
+        start
+        stop;;
+    "install" )
+        install;;
+    "uninstall" )
+        uninstall;;
+    "set_config" )
+    	set_config;;
+    "post_install" )
+        post_install;;
+    * )
+        usage ;;
 esac
