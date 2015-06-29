@@ -19,7 +19,7 @@ if [ "$line" == 0 ] ; then
     echo "$name $pass" >> $book
 
     local num=`cat $book | wc -l`
-    set_loading_txt "截取到第$num个用户($name)."
+    set_loading_txt "截取到第$num个用户."
     
 else
     # 停止截取

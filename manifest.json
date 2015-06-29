@@ -6,10 +6,11 @@
 "author"          : "魔豆开发团队-junjian",
 "author_mail"     : "junjian@mochui.net",
 "homepage"        : "www.modouwifi.com",
-"version"         : "0.2.2",
+"version"         : "0.3.1",
 "release_date"    : "2015.06.20",
 "icon"            : "./res/icon.png",
 "location"        : "internal",
 "description"     : "简单完成新老路由器的交接工作",
-"instruction"     : "1.xxxx; 2.xxxxx"
+"instruction"     : "1.xxxx; 2.xxxxx",
+"change_log"      : "修改部分文案"
 }

@@ -29,6 +29,25 @@ stop() {
     killall pppoe-server
 }
 
+# 尝试单个拨号
+dial_account() {
+
+    local name="$1"
+    local pass="$2"
+
+    start_loading "尝试($name)"
+
+    pppd updetach nodefaultroute usepeerdns maxfail 3 \
+        user "$name" password "$pass" mtu 1400 mru 1400 \
+        plugin rp-pppoe.so nic-eth0.2 debug
+
+    if [ "$?" == 0 ] ; then
+        correct_account_found "$name" "$pass"
+        return 
+    fi
+    
+}
+
 dial() {
     stop
 
@@ -38,7 +57,7 @@ dial() {
         local pass=`echo "$line" | awk '{print $2}'`
         echo "name($name) pass($pass)"
 
-        start_loading "尝试($name).."
+        start_loading "尝试中.."
 
         pppd updetach nodefaultroute usepeerdns maxfail 3 \
             user "$name" password "$pass" mtu 1400 mru 1400 \
@@ -61,7 +80,8 @@ correct_account_found() {
     killall pppd
 
     finish_loading
-    start_loading "正在用($name)接互联网.." 
+#    start_loading "正在用($name)接互联网.." 
+    start_loading "正在尝试连接接互联网.." 
     
     #start_loading "正在连接互联网..."
     lua /system/share/lua/5.1/tp_entry.lua wan_api.set_config "{\"account\":\"$name\",\"password\":\"$pass\",\"type\":\"pppoe\"}"
